@@ -10,7 +10,7 @@ namespace SimpleChatServer.WSControllers
         private static readonly List<ChatClient> Clients = [];
         private static readonly List<ChatResponse> Messages = [];
         private static int Counter = 1;
-        private static JsonSerializerOptions JsonOptions = new()
+        private static readonly JsonSerializerOptions JsonOptions = new()
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
