@@ -10,6 +10,11 @@ namespace SimpleChatServer.WSControllers
         private static readonly List<ChatClient> Clients = [];
         private static readonly List<ChatResponse> Messages = [];
         private static int Counter = 1;
+        private static JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
 
         static public async Task Handler(WebSocket webSocket)
         {
@@ -33,7 +38,7 @@ namespace SimpleChatServer.WSControllers
 
                 try
                 {
-                    req = JsonSerializer.Deserialize<ChatRequest>(msg);
+                    req = JsonSerializer.Deserialize<ChatRequest>(msg, JsonOptions);
                 }
                 catch (Exception)
                 {
@@ -115,7 +120,7 @@ namespace SimpleChatServer.WSControllers
 
         static public async Task Send(WebSocket webSocket, ChatResponse item)
         {
-            var response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(item));
+            var response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(item, JsonOptions));
             await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
