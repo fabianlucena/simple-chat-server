@@ -9,6 +9,17 @@ namespace SimpleChatServer
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("allowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()    // Permite cualquier origen (no recomendable en producción)
+                               .AllowAnyMethod()    // Permite cualquier método (GET, POST, PUT, DELETE, etc.)
+                               .AllowAnyHeader();   // Permite cualquier encabezado
+                    });
+            });
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -20,6 +31,7 @@ namespace SimpleChatServer
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseCors("allowAll");
                 app.MapOpenApi();
             }
 
