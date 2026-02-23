@@ -1,6 +1,10 @@
-@SimpleChatServer_HostAddress = http://localhost:5000
+@SimpleChatServer_HostAddress = https://localhost:7241
 
-GET {{SimpleChatServer_HostAddress}}/weatherforecast/
+POST {{SimpleChatServer_HostAddress}}/api/login
 Accept: application/json
+Content-Type: application/json
 
-###
+{
+    "username": "adam",
+    "password": "1234"
+}
