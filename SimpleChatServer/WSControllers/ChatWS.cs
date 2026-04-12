@@ -1,4 +1,5 @@
 ﻿using SimpleChatServer.DTO;
+using SimpleChatServer.Entities;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -9,16 +10,15 @@ namespace SimpleChatServer.WSControllers
     {
         private static readonly List<ChatClient> Clients = [];
         private static readonly List<ChatResponse> Messages = [];
-        private static int Counter = 1;
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        static public async Task Handler(WebSocket webSocket)
+        static public async Task Handler(WebSocket webSocket, User user)
         {
-            var client = new ChatClient(webSocket, $"User{Counter++:D3}");
+            var client = new ChatClient(webSocket, user.Username);
             Clients.Add(client);
 
             Messages.ForEach(async message => await Send(webSocket, message));
