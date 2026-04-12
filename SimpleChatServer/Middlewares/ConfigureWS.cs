@@ -6,7 +6,7 @@ namespace SimpleChatServer.Middlewares
 {
     public static class WebApplicationExtension
     {
-        private static AuthService authService = new();
+        private static readonly AuthService authService = new();
 
         static public void ConfigureWS(this WebApplication app)
         {
